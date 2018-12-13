@@ -45,8 +45,8 @@ public class GitHubAutomationTest
 	public void deleteRepository() {
 		//Find repository
 		steps.loginGithub(USERNAME, PASSWORD);
-		boolean repositoryFound = steps.findRepository(this.REPOSITORY_NAME);
-		Assert.assertTrue(repositoryFound, "Repository " + this.REPOSITORY_NAME + " not found");
+		boolean isRepositoryFound = steps.findRepository(this.REPOSITORY_NAME);
+		Assert.assertTrue(isRepositoryFound, "Repository " + this.REPOSITORY_NAME + " not found");
 
 		//Delete repository
 		boolean isRepositoryDeleted = steps.deleteRepository(this.REPOSITORY_NAME);
