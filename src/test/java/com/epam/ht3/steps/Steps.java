@@ -1,14 +1,15 @@
 package com.epam.ht3.steps;
 
 import com.epam.ht3.driver.DriverSingleton;
+import com.epam.ht3.pages.CreateNewRepositoryPage;
+import com.epam.ht3.pages.LoginPage;
+import com.epam.ht3.pages.MainPage;
+import com.epam.ht3.pages.MyRepositoriesPage;
+import com.epam.ht3.pages.RepositoryPage;
 import com.epam.ht3.utils.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
-
-import com.epam.ht3.pages.CreateNewRepositoryPage;
-import com.epam.ht3.pages.LoginPage;
-import com.epam.ht3.pages.MainPage;
 
 public class Steps
 {
@@ -61,6 +62,28 @@ public class Steps
 	public String generateRandomRepositoryNameWithCharLength(int howManyChars){
 		String repositoryNamePrefix = "testRepo_";
 		return repositoryNamePrefix.concat(Utils.getRandomString(howManyChars));
+	}
+
+	public boolean findRepository(String repositoryName) {
+		MainPage mainPage = new MainPage(driver);
+		mainPage.clickToMyRepositories();
+
+		MyRepositoriesPage myRepositoriesPage = new MyRepositoriesPage(driver);
+		do {
+			if (myRepositoriesPage.findRepository(repositoryName)) {
+				myRepositoriesPage.goToRepositoryPage(repositoryName);
+				return true;
+			}
+		} while (!myRepositoriesPage.findRepository(repositoryName));
+		return false;
+	}
+
+	public boolean deleteRepository(String repositoryName) {
+		RepositoryPage repositoryPage = new RepositoryPage(driver);
+		repositoryPage.deleteRepository(repositoryName);
+
+		MainPage mainPage = new MainPage(driver);
+		return mainPage.checkRepositoryDeletion(repositoryName);
 	}
 
 }
