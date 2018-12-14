@@ -6,6 +6,7 @@ import com.epam.ht3.pages.LoginPage;
 import com.epam.ht3.pages.MainPage;
 import com.epam.ht3.pages.MyRepositoriesPage;
 import com.epam.ht3.pages.RepositoryPage;
+import com.epam.ht3.pages.StarredRepositoriesPage;
 import com.epam.ht3.utils.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -68,7 +69,7 @@ public class Steps {
         return mainPage.checkRepositoryDeletion(repositoryName);
     }
 
-    public boolean findRepositoryBySearchingType(String repositoryName, String searchingType) {
+    private boolean findRepositoryBySearchingType(String repositoryName, String searchingType) {
         MyRepositoriesPage myRepositoriesPage = new MyRepositoriesPage(driver);
         MainPage mainPage = new MainPage(driver);
 
@@ -77,17 +78,44 @@ public class Steps {
                 mainPage.clickToMyRepositories();
                 do {
                     if (myRepositoriesPage.findRepository(repositoryName)) {
-                        return true;
+                        if (repositoryName.equals(getCurrentRepositoryName())){
+                            return true;
+                        }
                     }
                 } while (!myRepositoriesPage.findRepository(repositoryName));
 
             case "searchingSidebar":
-                return mainPage.findRepositoryViaSearchingSidebar(repositoryName);
-
+                if (mainPage.findRepositoryViaSearchingSidebar(repositoryName)) {
+                    if (repositoryName.equals(getCurrentRepositoryName())){
+                        return true;
+                    }
+                }
+            //github bug??? github does not find repository using this type of search
             case "headerNavSearchInput":
-                return mainPage.findRepositoryViaHeaderSearchInput(repositoryName);
-
+                if (mainPage.findRepositoryViaHeaderSearchInput(repositoryName)) {
+                    if (repositoryName.equals(getCurrentRepositoryName())){
+                        return true;
+                    }
+                }
         }
+        return false;
+    }
+
+    public boolean starRepository(String repositoryName) {
+        MainPage mainPage = new MainPage(driver);
+        MyRepositoriesPage myRepositoriesPage = new MyRepositoriesPage(driver);
+        StarredRepositoriesPage starredRepositories = new StarredRepositoriesPage(driver);
+
+        mainPage.clickToMyRepositories();
+        myRepositoriesPage.starRepository(repositoryName);
+        mainPage.openPage();
+        mainPage.clickToMyStars();
+
+        if ( starredRepositories.findRepository(repositoryName) ) {
+            starredRepositories.unstarRepository(repositoryName);
+            return true;
+        }
+
         return false;
     }
 
