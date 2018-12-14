@@ -8,8 +8,8 @@
                 <methods>
                     <include name="oneCanLoginGithub" />
                     <include name="oneCanCreateProject" />
-
                     <include name="tst_repositorySearch_Via"/>
+                    <include name="tst_starRepository"/>
                     <include name="tst_repositoryDeletion" />
                 </methods>
             </class>
