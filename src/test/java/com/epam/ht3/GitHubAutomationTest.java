@@ -59,6 +59,14 @@ public class GitHubAutomationTest {
         Assert.assertTrue(isRepositoryFound, "Repository " + this.REPOSITORY_NAME + " not found");
     }
 
+    @Test
+    public void tst_starRepository() {
+        steps.loginGithub(USERNAME, PASSWORD);
+
+        boolean isRepositoryStarred = steps.starRepository(this.REPOSITORY_NAME);
+        Assert.assertTrue(isRepositoryStarred, "Repository " + this.REPOSITORY_NAME + " starred");
+    }
+
     @AfterMethod(description = "Stop Browser")
     public void stopBrowser() {
         steps.closeBrowser();
