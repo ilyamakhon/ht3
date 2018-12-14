@@ -11,10 +11,11 @@ public class MyRepositoriesPage extends AbstractPage {
 
     private final String BASE_URL = "https://github.com/testautomationuser?tab=repositories";
 
-    private WebElement repository;
-
     @FindBy(xpath = "//div[@class='pagination']/a[contains( text(), 'Next' )]")
     private WebElement nextPageLink;
+
+    @FindBy(xpath = "//nav[@aria-label='User profile']/a[contains( text(), 'Stars' )]")
+    private WebElement starsLink;
 
     public MyRepositoriesPage(WebDriver driver) {
         super(driver);
@@ -30,7 +31,10 @@ public class MyRepositoriesPage extends AbstractPage {
         String locator = "//div[@id='user-repositories-list']/ul/li/div/div/h3/a[@href='/testautomationuser/" + repositoryName + "']";
 
         try {
-            driver.findElement(By.xpath(locator)).isDisplayed();
+            WebElement foundRepositoryLink = driver.findElement(By.xpath(locator));
+            if (foundRepositoryLink.isDisplayed() && foundRepositoryLink.getText().equals(repositoryName)) {
+                foundRepositoryLink.click();
+            }
             return true;
         } catch (NoSuchElementException nsee) {
             nextPageLink.click();
@@ -38,10 +42,10 @@ public class MyRepositoriesPage extends AbstractPage {
         return false;
     }
 
-//    public void goToRepositoryPage(String repositoryName) {
-//        String locator = "//div[@id='user-repositories-list']/ul/li/div/div/h3/a[@href='/testautomationuser/" + repositoryName + "']";
-//
-//        driver.findElement(By.xpath(locator)).click();
-//    }
+    public void starRepository(String repositoryName) {
+        WebElement starButton = driver.findElement(By.xpath("//form[@class='unstarred']/button[@title='Star testautomationuser/" + repositoryName + "']"));
 
+        starButton.click();
+        starsLink.click();
+    }
 }

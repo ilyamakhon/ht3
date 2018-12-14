@@ -23,6 +23,9 @@ public class MainPage extends AbstractPage {
     @FindBy(xpath = "//a[contains( text(), 'Your repositories' )]")
     private WebElement myRepositoriesLink;
 
+    @FindBy(xpath = "//a[contains( text(), 'Your stars' )]")
+    private WebElement myStarsLink;
+
     @FindBy(id = "js-flash-container")
     private WebElement repositorySuccessesfullyDeletedMessage;
 
@@ -47,6 +50,11 @@ public class MainPage extends AbstractPage {
         myRepositoriesLink.click();
     }
 
+    public void clickToMyStars() {
+        headerNavLink.click();
+        myStarsLink.click();
+    }
+
     public boolean checkRepositoryDeletion(String repositoryName) {
         String message = "Your repository \"testautomationuser/" + repositoryName + "\" was successfully deleted.";
         return repositorySuccessesfullyDeletedMessage.getText().contains(message);
@@ -63,15 +71,16 @@ public class MainPage extends AbstractPage {
     public boolean findRepositoryViaHeaderSearchInput(String repositoryName) {
         headerNavSearchRepositoryInput.sendKeys(repositoryName);
 
-        locator = "//ul[@id='jump-to-results']/li/a/div[@aria-label='" + repositoryName + "']";
+        locator = "//ul[@id='jump-to-results']/li/a[contains( text(), 'testautomationuser' )]/@href";//FYYYYYCK NE RABOTAET NO LINK TO THIS USER ONLY GLOBAL FOR GIT
 
         return findRepository(locator, repositoryName);
     }
 
     private boolean findRepository(String locator, String repositoryName) {
         try {
+//             && foundRepositoryLink.getText().equals(repositoryName)
             WebElement foundRepositoryLink = driver.findElement(By.xpath(locator));
-            if (foundRepositoryLink.isDisplayed() && foundRepositoryLink.getText().equals(repositoryName)) {
+            if (foundRepositoryLink.isDisplayed()) {
                 foundRepositoryLink.click();
             }
             return true;
