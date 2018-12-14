@@ -6,54 +6,53 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class CreateNewRepositoryPage extends AbstractPage
-{
-	private final String BASE_URL = "http://www.github.com/new";
-	private final Logger logger = LogManager.getRootLogger();
+public class CreateNewRepositoryPage extends AbstractPage {
+    private final String BASE_URL = "http://www.github.com/new";
+    private final Logger logger = LogManager.getRootLogger();
 
-	@FindBy(id = "repository_name")
-	private WebElement inputRepositoryName;
+    @FindBy(id = "repository_name")
+    private WebElement inputRepositoryName;
 
-	@FindBy(id = "repository_description")
-	private WebElement inputRepositoryDescription;
+    @FindBy(id = "repository_description")
+    private WebElement inputRepositoryDescription;
 
-	@FindBy(xpath = "//form[@id='new_repository']//button[@type='submit']")
-	private WebElement butttonCreate;
+    @FindBy(xpath = "//form[@id='new_repository']//button[@type='submit']")
+    private WebElement butttonCreate;
 
-	@FindBy(xpath = "//h3/strong[text()='Quick setup']")
-	private WebElement labelEmptyRepoSetupOption;
+    @FindBy(xpath = "//h3/strong[text()='Quick setup']")
+    private WebElement labelEmptyRepoSetupOption;
 
-	@FindBy(xpath = "//a[@data-pjax='#js-repo-pjax-container']")
-	private WebElement linkCurrentRepository;
+    @FindBy(xpath = "//a[@data-pjax='#js-repo-pjax-container']")
+    private WebElement linkCurrentRepository;
 
-	public CreateNewRepositoryPage(WebDriver driver)
-	{
-		super(driver);
-		PageFactory.initElements(this.driver, this);
-	}
+    public CreateNewRepositoryPage(WebDriver driver) {
+        super(driver);
+        PageFactory.initElements(this.driver, this);
+    }
 
-	public boolean isCurrentRepositoryEmpty()
-	{
-		return labelEmptyRepoSetupOption.isDisplayed();
-	}
+    public boolean isCurrentRepositoryEmpty() {
+        return labelEmptyRepoSetupOption.isDisplayed();
+    }
 
-	public void createNewRepository(String repositoryName, String repositoryDescription)
-	{
-		inputRepositoryName.sendKeys(repositoryName);
-		inputRepositoryDescription.sendKeys(repositoryDescription);
-		butttonCreate.click();
-	}
+    public void createNewRepository(String repositoryName, String repositoryDescription) {
+        inputRepositoryName.sendKeys(repositoryName);
+        inputRepositoryDescription.sendKeys(repositoryDescription);
+        WebDriverWait wait = new WebDriverWait(driver, 2);
+        wait.until(ExpectedConditions.visibilityOf(butttonCreate));
+        butttonCreate.click();
+        butttonCreate.click();
+    }
 
-	public String getCurrentRepositoryName()
-	{
-		return linkCurrentRepository.getText();
-	}
+    public String getCurrentRepositoryName() {
+        return linkCurrentRepository.getText();
+    }
 
-	@Override
-	public void openPage()
-	{
-		driver.navigate().to(BASE_URL);
-	}
+    @Override
+    public void openPage() {
+        driver.navigate().to(BASE_URL);
+    }
 
 }

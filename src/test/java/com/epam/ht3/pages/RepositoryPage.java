@@ -7,8 +7,6 @@ import org.openqa.selenium.support.PageFactory;
 
 public class RepositoryPage extends AbstractPage {
 
-    private String baseURL;
-
     @FindBy(linkText = "Settings")
     private WebElement repositorySettingsLink;
 
@@ -26,21 +24,9 @@ public class RepositoryPage extends AbstractPage {
         PageFactory.initElements(this.driver, this);
     }
 
-    public String getBaseURL() {
-        return baseURL;
-    }
-
-    public void setBaseURL(String baseURL) {
-        this.baseURL = baseURL;
-    }
-
-    public void setUpURL(String repositoryName) {
-        baseURL = "https://github.com/testautomationuser/" + repositoryName + "";
-    }
-
     @Override
     public void openPage() {
-        driver.navigate().to(getBaseURL());
+
     }
 
     public void deleteRepository(String repositoryName) {

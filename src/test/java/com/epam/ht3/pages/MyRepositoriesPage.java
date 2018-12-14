@@ -38,10 +38,10 @@ public class MyRepositoriesPage extends AbstractPage {
         return false;
     }
 
-    public void goToRepositoryPage(String repositoryName) {
-        String locator = "//div[@id='user-repositories-list']/ul/li/div/div/h3/a[@href='/testautomationuser/" + repositoryName + "']";
-
-        driver.findElement(By.xpath(locator)).click();
-    }
+//    public void goToRepositoryPage(String repositoryName) {
+//        String locator = "//div[@id='user-repositories-list']/ul/li/div/div/h3/a[@href='/testautomationuser/" + repositoryName + "']";
+//
+//        driver.findElement(By.xpath(locator)).click();
+//    }
 
 }
