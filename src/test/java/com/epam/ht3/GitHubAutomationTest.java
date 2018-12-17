@@ -38,6 +38,7 @@ public class GitHubAutomationTest {
         Assert.assertEquals(USERNAME, steps.getLoggedInUserName());
     }
 
+    //Test repository deletion
     @Test(dataProvider = "dataProvider", dataProviderClass = DataProviderClass.class)
     public void tst_repositoryDeletion(String searchingType) {
         //Find repository
@@ -48,9 +49,10 @@ public class GitHubAutomationTest {
 
         //Delete repository
         boolean isRepositoryDeleted = steps.deleteRepository(this.REPOSITORY_NAME);
-        Assert.assertTrue(isRepositoryDeleted, "Repository " + this.REPOSITORY_NAME + " wasn't deleted");
+        Assert.assertTrue(isRepositoryDeleted, "Repository " + this.REPOSITORY_NAME + " was not deleted");
     }
 
+    //Test different types of repository search
     @Test(dataProvider = "dataProvider", dataProviderClass = DataProviderClass.class)
     public void tst_repositorySearch_Via(String searchingType) {
         steps.loginGithub(USERNAME, PASSWORD);
@@ -59,14 +61,15 @@ public class GitHubAutomationTest {
         Assert.assertTrue(isRepositoryFound, "Repository " + this.REPOSITORY_NAME + " not found");
     }
 
+    //Test 'star repository' functional
     @Test
     public void tst_starRepository() {
         steps.loginGithub(USERNAME, PASSWORD);
 
-        boolean isRepositoryStarred = steps.starRepository(this.REPOSITORY_NAME);
-        Assert.assertTrue(isRepositoryStarred, "Repository " + this.REPOSITORY_NAME + " starred");
+        boolean isRepositoryStarredSuccessfully = steps.starRepository(this.REPOSITORY_NAME);
+        Assert.assertTrue(isRepositoryStarredSuccessfully, "Repository " + this.REPOSITORY_NAME + " still starred");
     }
-
+    
     @AfterMethod(description = "Stop Browser")
     public void stopBrowser() {
         steps.closeBrowser();

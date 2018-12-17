@@ -58,7 +58,7 @@ public class Steps {
     }
 
     public boolean findRepository(String repositoryName, String searchingType) {
-        return findRepositoryBySearchingType(repositoryName, searchingType);
+        return findRepositoryWithSearchingType(repositoryName, searchingType);
     }
 
     public boolean deleteRepository(String repositoryName) {
@@ -69,7 +69,7 @@ public class Steps {
         return mainPage.checkRepositoryDeletion(repositoryName);
     }
 
-    private boolean findRepositoryBySearchingType(String repositoryName, String searchingType) {
+    private boolean findRepositoryWithSearchingType(String repositoryName, String searchingType) {
         MyRepositoriesPage myRepositoriesPage = new MyRepositoriesPage(driver);
         MainPage mainPage = new MainPage(driver);
 
@@ -90,7 +90,7 @@ public class Steps {
                         return true;
                     }
                 }
-            //github bug??? github does not find repository using this type of search
+            //github bug??? github does not find repository using this type of search after creating new repository
             case "headerNavSearchInput":
                 if (mainPage.findRepositoryViaHeaderSearchInput(repositoryName)) {
                     if (repositoryName.equals(getCurrentRepositoryName())){

@@ -43,7 +43,7 @@ public class CreateNewRepositoryPage extends AbstractPage {
         WebDriverWait wait = new WebDriverWait(driver, 2);
         wait.until(ExpectedConditions.visibilityOf(butttonCreate));
         butttonCreate.click();
-        butttonCreate.click();
+        butttonCreate.click();//GeckoDriver Bug??? One click does not work
     }
 
     public String getCurrentRepositoryName() {

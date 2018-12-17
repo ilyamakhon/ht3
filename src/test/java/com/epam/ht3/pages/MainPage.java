@@ -6,10 +6,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MainPage extends AbstractPage {
     private final String BASE_URL = "https://github.com/";
-    private String locator;
+    private String repositoryLinkLocator;
 
     @FindBy(xpath = "//summary[@aria-label='Create new…']")
     private WebElement buttonCreateNew;
@@ -63,26 +65,25 @@ public class MainPage extends AbstractPage {
     public boolean findRepositoryViaSearchingSidebar(String repositoryName) {
         sidebarSearchRepositoryInput.sendKeys(repositoryName);
 
-        locator = "//ul[@class='list-style-none']/li/div/a[@aria-describedby='hovercard-aria-description']/span[@title='" + repositoryName + "']";
+        repositoryLinkLocator = "//div/ul[@data-filterable-for='dashboard-repos-filter-sidebar']/li/div/a[@href='/testautomationuser/"+ repositoryName +"']";
 
-        return findRepository(locator, repositoryName);
+        return findRepositoryLink(repositoryLinkLocator);
     }
 
     public boolean findRepositoryViaHeaderSearchInput(String repositoryName) {
         headerNavSearchRepositoryInput.sendKeys(repositoryName);
 
-        locator = "//ul[@id='jump-to-results']/li/a[contains( text(), 'testautomationuser' )]/@href";//FYYYYYCK NE RABOTAET NO LINK TO THIS USER ONLY GLOBAL FOR GIT
+        repositoryLinkLocator = "//div/ul/li/a[@href='/testautomationuser/"+ repositoryName +"']";
 
-        return findRepository(locator, repositoryName);
+        return findRepositoryLink(repositoryLinkLocator);
     }
 
-    private boolean findRepository(String locator, String repositoryName) {
+    private boolean findRepositoryLink(String locator) {
         try {
-//             && foundRepositoryLink.getText().equals(repositoryName)
             WebElement foundRepositoryLink = driver.findElement(By.xpath(locator));
-            if (foundRepositoryLink.isDisplayed()) {
-                foundRepositoryLink.click();
-            }
+            WebDriverWait wait = new WebDriverWait(driver, 2);
+
+            wait.until(ExpectedConditions.elementToBeClickable(foundRepositoryLink)).click();
             return true;
         } catch (NoSuchElementException nsee) {
             return false;

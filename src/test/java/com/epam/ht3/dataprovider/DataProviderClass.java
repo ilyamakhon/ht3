@@ -13,7 +13,7 @@ public class DataProviderClass {
                 return new Object[][]{
                         { "repositoriesPage" },
                         { "searchingSidebar" },
-                        {"headerNavSearchInput"}//github bug??? github does not find repository using this type of search
+                        {"headerNavSearchInput"}//github bug??? github does not find repository using this type of search after creating new repository
 
                 };
             case "tst_repositoryDeletion":

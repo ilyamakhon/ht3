@@ -11,9 +11,6 @@ public class MyRepositoriesPage extends AbstractPage {
 
     private final String BASE_URL = "https://github.com/testautomationuser?tab=repositories";
 
-    @FindBy(xpath = "//div[@class='pagination']/a[contains( text(), 'Next' )]")
-    private WebElement nextPageLink;
-
     @FindBy(xpath = "//nav[@aria-label='User profile']/a[contains( text(), 'Stars' )]")
     private WebElement starsLink;
 
@@ -37,6 +34,7 @@ public class MyRepositoriesPage extends AbstractPage {
             }
             return true;
         } catch (NoSuchElementException nsee) {
+            WebElement nextPageLink = driver.findElement(By.xpath("//div[@class='pagination']/a[contains( text(), 'Next' )]"));
             nextPageLink.click();
         }
         return false;
